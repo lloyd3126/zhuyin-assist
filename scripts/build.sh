@@ -71,6 +71,7 @@ else
     cp "$binary_dir/GeminiParagraphCorrection" "$app_path/Contents/MacOS/GeminiParagraphCorrection"
 fi
 cp "$project_root/Resources/Info.plist" "$app_path/Contents/Info.plist"
+cp "$project_root/Resources/AppIcon.icns" "$app_path/Contents/Resources/AppIcon.icns"
 cp -R "$project_root/docs" "$app_path/Contents/Resources/docs"
 cp "$project_root/README.md" "$app_path/Contents/Resources/README.md"
 cp "$project_root/docs/USAGE.md" "$app_path/Contents/Resources/docs/使用說明.md"

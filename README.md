@@ -2,9 +2,11 @@
 
 輕量的 macOS 注音輸入輔助工具。使用 Gemini 校正繁體中文錯字，或將注音按鍵、注音符號還原成繁體中文。也支援補標點與排版。連按兩下**右側 Option**，就能直接替換選取文字或游標所在段落。
 
-沿用你原有的輸入法，支援「選自」→「選字」這類注音同音誤選，以及忘記切換輸入法時的整句按鍵還原。App 目前顯示名稱為「Gemini 段落校正」，透過選單列操作；校正時會在文字旁顯示浮動提示。[v2.3.0 下載版](https://github.com/lloyd3126/zhuyin-assist/releases/tag/v2.3.0) 包含三種用途、浮動 spinner、補標點與排版；舊版 2.1.5 只支援中文錯字校正。
+沿用你原有的輸入法，支援「選自」→「選字」這類注音同音誤選，以及忘記切換輸入法時的整句按鍵還原。App 目前顯示名稱為「Gemini 段落校正」，透過選單列操作；校正時會在文字旁顯示浮動提示。[v2.3.1 下載版](https://github.com/lloyd3126/zhuyin-assist/releases/tag/v2.3.1) 包含新圖示、三種用途、浮動 spinner、補標點與排版；舊版 2.1.5 只支援中文錯字校正。
 
 **v2.3.0 起可直接下載包含浮動 spinner、補標點與排版的 App。** v2.2.0 包含三種校正與還原用途，沒有這批新增功能。
+
+v2.3.1 新增圓框眼鏡與貝雷帽頭像圖示，包含 16 至 1024 像素的 macOS 圖示尺寸。以使用者提供的圖片為基礎，透過內建 imagegen 調整構圖；[PNG 原稿](Resources/AppIcon.png) 與 [製作提示詞](Resources/AppIcon.prompt.txt) 一併保留在專案中。
 
 ## 功能
 
@@ -116,6 +118,8 @@ ZHUYIN_ASSIST_BUILD_SYSTEM=native ./scripts/test.sh
 - 這批功能未新增或執行離線測試，也未進行新的 Gemini 自動實測；上述試用回饋不代表所有標點、排版與內容保護案例均已驗證。
 - 本機更新使用 ad-hoc 簽章，更新後的兩項權限由使用者自行處理。這批功能收錄於 [v2.3.0 Release](https://github.com/lloyd3126/zhuyin-assist/releases/tag/v2.3.0)。
 
+新圖示更新：各尺寸圖層與透明通道已透過 macOS 圖示工具確認；本機 App 完成建置、簽章檢查、安裝與重新啟動，金鑰設定保留。使用者回報試用成功；此圖示收錄於 v2.3.1。
+
 ## 專案結構
 
 ```text
@@ -123,6 +127,9 @@ Sources/ZhuyinAssist/main.swift   App、校正流程與離線測試
 Sources/ZhuyinAssist/ProcessingHint.swift  浮動 spinner 與定位
 Sources/ZhuyinAssist/CopywritingFormatting.swift  內容保護、排版與數字檢查
 Resources/Info.plist             App 名稱、版本與識別設定
+Resources/AppIcon.png            圖示 PNG 原稿
+Resources/AppIcon.icns           macOS App 圖示
+Resources/AppIcon.prompt.txt     imagegen 製作圖示的提示詞
 scripts/build.sh                建置與封裝 App
 scripts/install.sh              安裝或更新 App
 scripts/test.sh                 執行離線測試
