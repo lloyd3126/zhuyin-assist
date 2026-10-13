@@ -4,7 +4,9 @@
 
 1. 到 [最新 Release](https://github.com/lloyd3126/zhuyin-assist/releases/latest)，下載 `zhuyin-assist-版本-macOS-universal.zip`。GitHub 自動提供的「Source code」是原始碼，請下載上述 App ZIP。
 2. 解壓縮，將 `GeminiParagraphCorrection.app` 拖到「應用程式」資料夾。
-3. 開啟 App，完成下方的 Gemini 金鑰與輔助使用設定。
+3. 開啟 App，完成下方的 Gemini 金鑰、輔助使用與輸入監控設定。
+
+已發布的 2.1.5 下載版只支援中文錯字校正。新增的注音按鍵與注音符號還原功能，目前需從原始碼建置。
 
 下載版包含 Apple Silicon 與 Intel 兩種架構。最低系統版本設定為 macOS 13；目前實際測試環境為 Apple Silicon、macOS 26.5，Intel 與較舊系統仍需實測。
 
@@ -26,7 +28,7 @@ shasum -a 256 -c zhuyin-assist-2.1.5-macOS-universal.zip.sha256
 
 ### 更新下載版
 
-先從「校」選單點「結束」，下載新版並以解壓縮後的 App 替換原 App。金鑰會保留。更新後若快捷鍵失效，依下方「更新」段落重新允許輔助使用。
+先從「校」選單點「結束」，下載新版並以解壓縮後的 App 替換原 App。金鑰會保留。更新後若快捷鍵失效，依下方「更新」段落重新允許輔助使用與輸入監控。
 
 ## 準備
 
@@ -43,7 +45,7 @@ xcrun swift --version
 python3 --version
 ```
 
-專案最低系統版本設定為 macOS 13。目前已驗證的環境為 Apple Silicon、macOS 26.5；建置只包含這台 Mac 的架構。
+專案最低系統版本設定為 macOS 13。原版已在 Apple Silicon、macOS 26.5 上驗證；新增三種用途的本機版本已在 Apple Silicon、macOS 27.0.1 上建置與試用。預設建置只包含這台 Mac 的架構。
 
 ## 建置與安裝
 
@@ -77,6 +79,16 @@ cd zhuyin-assist
 
 App 目前需要手動啟動，尚未設定登入時自動開啟。
 
+### 預設建置引擎啟動失敗
+
+本次本機環境的 SwiftPM 預設引擎曾出現 `SessionFailedError` 與 `Unknown error parsing property list`。改用工具鏈仍支援的 `native` 引擎後，建置與離線測試成功：
+
+```bash
+ZHUYIN_ASSIST_BUILD_SYSTEM=native ./scripts/install.sh
+```
+
+同一個環境變數也可用於 `build.sh` 與 `test.sh`。`native` 已被 SwiftPM 標為 deprecated，此方法只適用於仍支援該引擎的工具鏈。
+
 ## 設定 Gemini 金鑰
 
 1. 從 [Google AI Studio](https://aistudio.google.com/apikey) 取得 Gemini API Key。
@@ -88,11 +100,12 @@ App 目前需要手動啟動，尚未設定登入時自動開啟。
 ## 允許校正與快捷鍵
 
 1. 點「校」→「允許校正與快捷鍵…」。
-2. 在「系統設定 → 隱私權與安全性 → 輔助使用」開啟「Gemini 段落校正」。
+2. 在「系統設定 → 隱私權與安全性 → 輔助使用」開啟已安裝的 App。macOS 27.0.1 的頁面名稱為「裝置控制和資料取用」，清單可能顯示 `GeminiParagraphCorrection.app`。
 3. 如果清單裡沒有它，按「＋」，選取已安裝的 `GeminiParagraphCorrection.app`。
-4. 回到「校」選單，必要時點「重新啟用快捷鍵」；若仍未生效，結束並重新開啟 App。
+4. 在「隱私權與安全性 → 輸入監控」也開啟這個 App；必要時按「＋」加入同一個已安裝的 App。
+5. 依系統提示結束並重新開啟 App。回到「校」選單，必要時點「重新啟用快捷鍵」。
 
-「輔助使用」允許 App 讀取、替換輸入欄位文字及監聽快捷鍵。只有游標在可編輯欄位、且有選取文字或剛打完字時，才會進行校正。
+「輔助使用／裝置控制和資料取用」用於讀取與替換輸入欄位文字；「輸入監控」用於監聽右側 Option 快捷鍵。只有游標在可編輯欄位、且有選取文字或剛打完字時，才會進行校正。
 
 ## 更新
 
@@ -105,11 +118,12 @@ git pull --ff-only
 
 安裝腳本只替換 App，已儲存的金鑰會保留。如果原 App 正在執行，腳本會停止安裝並請你先結束 App。
 
-自行建置的簽章會隨程式版本改變，macOS 可能不沿用舊版授權。如果更新後快捷鍵失效：
+自行建置的簽章會隨程式版本改變，macOS 可能不沿用舊版授權。本次更新曾遇到設定開關顯示開啟，但 App 仍回報未授權；只關閉再開啟開關未能恢復。如果更新後快捷鍵失效：
 
-1. 從輔助使用清單移除舊項目，按「＋」加入已更新的 App，再開啟權限。
-2. 結束並重新開啟 App。
-3. 回到「校」選單，點「重新啟用快捷鍵」。
+1. 先從「校」選單點「結束」。
+2. 在「輔助使用／裝置控制和資料取用」選取舊 App 項目，按「－」移除，再按「＋」加入實際安裝位置的新版 App 並開啟權限。預設位置為 `~/Applications/GeminiParagraphCorrection.app`，避免誤選 repo 的 `dist` 建置副本或備份。
+3. 在「輸入監控」對同一個 App 重新加入並開啟權限。
+4. 重新開啟 App；若系統要求「結束並重新打開」，依提示操作。必要時點「重新啟用快捷鍵」，再到 TextEdit 選取文字測試。
 
 若仍被舊版監聽記錄阻擋，可先結束 App，僅清除此 App 的舊監聽記錄，再重新啟動：
 
@@ -118,11 +132,13 @@ tccutil reset ListenEvent local.chenchungnien.gemini-paragraph-correction
 open "$HOME/Applications/GeminiParagraphCorrection.app"
 ```
 
+清除後仍需重新允許輸入監控。
+
 ## 常見問題
 
 **儲存金鑰失敗**：點開「校」查看訊息，確認目前 Mac 帳號可以存取設定位置。App 使用設定檔保存金鑰，無需登入鑰匙圈。
 
-**快捷鍵沒有反應**：先在 TextEdit 選取一段文字，再快速按下、放開右側 Option 兩次；確認 App 已執行且有輔助使用權限。只有剛在同一欄位打字後 2 秒內，才可在未選取文字時觸發。
+**快捷鍵沒有反應**：先在 TextEdit 選取一段文字，再快速按下、放開右側 Option 兩次；確認 App 已執行且有輔助使用與輸入監控權限。更新後即使開關顯示開啟，也可能需要依「更新」段落移除舊項目、重新加入新版。只有剛在同一欄位打字後 2 秒內，才可在未選取文字時觸發。
 
 **出現驚嘆號**：點開「校」或「查看最近狀態…」讀取原因。可能是金鑰無效、配額不足、網路中斷或該 App 的文字欄位不支援直接替換。
 

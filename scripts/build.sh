@@ -4,6 +4,11 @@ set -euo pipefail
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"
 
+swift_build_arguments=(--configuration release)
+if [[ -n "${ZHUYIN_ASSIST_BUILD_SYSTEM:-}" ]]; then
+    swift_build_arguments+=(--build-system "$ZHUYIN_ASSIST_BUILD_SYSTEM")
+fi
+
 universal=false
 case "${1:-}" in
     --universal) universal=true; shift ;;
@@ -31,13 +36,13 @@ if [[ "$universal" == true ]]; then
             exit 1
         fi
     done
-    xcrun swift build --configuration release --scratch-path .build/release-arm64 --triple arm64-apple-macosx13.0
-    arm_binary_dir="$(xcrun swift build --configuration release --scratch-path .build/release-arm64 --triple arm64-apple-macosx13.0 --show-bin-path)"
-    xcrun swift build --configuration release --scratch-path .build/release-x86_64 --triple x86_64-apple-macosx13.0
-    intel_binary_dir="$(xcrun swift build --configuration release --scratch-path .build/release-x86_64 --triple x86_64-apple-macosx13.0 --show-bin-path)"
+    xcrun swift build "${swift_build_arguments[@]}" --scratch-path .build/release-arm64 --triple arm64-apple-macosx13.0
+    arm_binary_dir="$(xcrun swift build "${swift_build_arguments[@]}" --scratch-path .build/release-arm64 --triple arm64-apple-macosx13.0 --show-bin-path)"
+    xcrun swift build "${swift_build_arguments[@]}" --scratch-path .build/release-x86_64 --triple x86_64-apple-macosx13.0
+    intel_binary_dir="$(xcrun swift build "${swift_build_arguments[@]}" --scratch-path .build/release-x86_64 --triple x86_64-apple-macosx13.0 --show-bin-path)"
 else
-    xcrun swift build --configuration release
-    binary_dir="$(xcrun swift build --configuration release --show-bin-path)"
+    xcrun swift build "${swift_build_arguments[@]}"
+    binary_dir="$(xcrun swift build "${swift_build_arguments[@]}" --show-bin-path)"
 fi
 app_path="$project_root/dist/GeminiParagraphCorrection.app"
 mkdir -p "$project_root/dist"
