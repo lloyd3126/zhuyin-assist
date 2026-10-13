@@ -47,7 +47,7 @@ fi
 app_path="$project_root/dist/GeminiParagraphCorrection.app"
 mkdir -p "$project_root/dist"
 
-# Recreate only this generated bundle; saved user settings live outside it.
+# Recreate only this generated bundle. Saved user settings live outside it.
 if [[ -L "$app_path" ]]; then
     printf '建置目的地是連結，請先移除 dist 中的 App 連結。\n' >&2
     exit 1

@@ -106,7 +106,7 @@ private func copywritingProtectedRanges(_ text: String) -> [NSRange] {
         // Versions/decimals and ASCII identifiers, including product names.
         #"[vV]?[0-9]+(?:\.[0-9]+)+(?:[-+][a-zA-Z0-9.-]+)?"#,
         #"[a-zA-Z_][a-zA-Z0-9_]*(?:[-.][a-zA-Z0-9_]+)*"#,
-        // Preserve Markdown structure and escapes; edit only its prose.
+        // Preserve Markdown structure and escapes. Edit only its prose.
         #"^\s*(?:#{1,6}\s+|(?:>\s*)+|[-+*]\s+|[0-9]+[.)]\s+|\[[^\]]+\]:\s+.*$)"#,
         #"\\."#,
         #"[*_~|]+"#

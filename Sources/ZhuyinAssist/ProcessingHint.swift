@@ -125,7 +125,7 @@ final class ProcessingHint {
         var screen: NSScreen?
         if let textBounds {
             let rect = appKitRect(textBounds)
-            // A caret may have zero width; give it a small area for intersection.
+            // A caret may have zero width. Give it a small area for intersection.
             let visible = rect.insetBy(dx: -1, dy: 0)
             screen = NSScreen.screens.first { $0.visibleFrame.intersects(visible) }
             if screen != nil, field == nil || field!.intersects(visible) { anchor = rect }
