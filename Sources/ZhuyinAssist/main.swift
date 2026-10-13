@@ -1231,7 +1231,7 @@ final class MenuAppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         setupItem.isEnabled = coordinator == nil
         statusItem.button?.toolTip = "Gemini 段落校正 · \(status)"
         // Local, non-sensitive diagnostics for CLI verification; never include the key or paragraph.
-        let info: [String: Any] = ["pid": ProcessInfo.processInfo.processIdentifier, "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "2.1.5", "shortcut": "Double Right Option", "hotkeyRegistered": shortcutEnabled, "busy": coordinator != nil, "indicator": indicator?.state.rawValue ?? "idle", "accessibilityTrusted": AXIsProcessTrusted(), "inputMonitoringAllowed": CGPreflightListenEventAccess(), "status": status]
+        let info: [String: Any] = ["pid": ProcessInfo.processInfo.processIdentifier, "version": Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "2.2.0", "shortcut": "Double Right Option", "hotkeyRegistered": shortcutEnabled, "busy": coordinator != nil, "indicator": indicator?.state.rawValue ?? "idle", "accessibilityTrusted": AXIsProcessTrusted(), "inputMonitoringAllowed": CGPreflightListenEventAccess(), "status": status]
         let directory = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Application Support/GeminiParagraphCorrection")
         try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         if let data = try? JSONSerialization.data(withJSONObject: info, options: [.prettyPrinted, .sortedKeys]) {

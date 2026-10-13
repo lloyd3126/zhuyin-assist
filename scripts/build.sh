@@ -64,7 +64,9 @@ rm -rf "$app_path"
 mkdir -p "$app_path/Contents/MacOS" "$app_path/Contents/Resources"
 if [[ "$universal" == true ]]; then
     xcrun lipo -create "$arm_binary_dir/GeminiParagraphCorrection" "$intel_binary_dir/GeminiParagraphCorrection" -output "$app_path/Contents/MacOS/GeminiParagraphCorrection"
-    xcrun lipo "$app_path/Contents/MacOS/GeminiParagraphCorrection" -verify_arch arm64 x86_64
+    for architecture in arm64 x86_64; do
+        xcrun lipo "$app_path/Contents/MacOS/GeminiParagraphCorrection" -verify_arch "$architecture"
+    done
 else
     cp "$binary_dir/GeminiParagraphCorrection" "$app_path/Contents/MacOS/GeminiParagraphCorrection"
 fi

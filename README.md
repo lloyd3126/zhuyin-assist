@@ -2,7 +2,7 @@
 
 輕量的 macOS 注音輸入輔助工具。使用 Gemini 校正繁體中文錯字，或將注音按鍵、注音符號還原成繁體中文。連按兩下**右側 Option**，就能直接替換選取文字或游標所在段落。
 
-沿用你原有的輸入法，支援「選自」→「選字」這類注音同音誤選，以及忘記切換輸入法時的整句按鍵還原。介面只有選單列，App 目前顯示名稱為「Gemini 段落校正」。這些新增還原功能需從原始碼建置；已發布的 2.1.5 下載版只支援中文錯字校正。
+沿用你原有的輸入法，支援「選自」→「選字」這類注音同音誤選，以及忘記切換輸入法時的整句按鍵還原。介面只有選單列，App 目前顯示名稱為「Gemini 段落校正」。[v2.2.0 下載版](https://github.com/lloyd3126/zhuyin-assist/releases/tag/v2.2.0) 已包含三種用途；舊版 2.1.5 只支援中文錯字校正。
 
 ## 功能
 
@@ -21,7 +21,7 @@
 
 不需要安裝開發工具。到 [最新 Release](https://github.com/lloyd3126/zhuyin-assist/releases/latest) 下載 `zhuyin-assist-版本-macOS-universal.zip`，解壓縮後將 `GeminiParagraphCorrection.app` 拖到「應用程式」並開啟。
 
-下載版包含 Apple Silicon 與 Intel 兩種架構，最低系統版本設定為 macOS 13；目前實際測試環境為 Apple Silicon、macOS 26.5。App 使用本機簽章，尚未取得 Apple 開發者認證與公證。首次開啟如果遭到阻擋，請依 [安裝說明](docs/INSTALL.md#首次開啟下載版) 在系統設定允許這個 App。
+下載版包含 Apple Silicon 與 Intel 兩種架構，最低系統版本設定為 macOS 13；新版功能已在 Apple Silicon、macOS 27.0.1 上建置與試用，Intel 與較舊系統仍需實測。App 使用本機簽章，尚未取得 Apple 開發者認證與公證。首次開啟如果遭到阻擋，請依 [安裝說明](docs/INSTALL.md#首次開啟下載版) 在系統設定允許這個 App。
 
 ### 從原始碼安裝
 
@@ -96,7 +96,7 @@ ZHUYIN_ASSIST_BUILD_SYSTEM=native ./scripts/test.sh
 
 ### 本機驗證紀錄
 
-2026-10-13，驗證新增三種用途的本機原始碼版本；此版本尚未發布為 Release。
+2026-10-13，驗證新增三種用途的本機原始碼版本；這些功能收錄於 [v2.2.0 Release](https://github.com/lloyd3126/zhuyin-assist/releases/tag/v2.2.0)。
 
 - Apple Silicon、macOS 27.0.1：透過 `native` 建置引擎完成建置，全部離線測試通過。
 - Gemini 實測 8 項全部符合預期：中文錯字、完整注音按鍵、注音符號、另一句按鍵與注音、多行格式、短按鍵字串保留，以及英文／網址／程式碼保留。
