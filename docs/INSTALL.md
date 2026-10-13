@@ -6,7 +6,7 @@
 2. 解壓縮，將 `GeminiParagraphCorrection.app` 拖到「應用程式」資料夾。
 3. 開啟 App，完成下方的 Gemini 金鑰、輔助使用與輸入監控設定。
 
-v2.2.0 起的下載版包含中文錯字校正、注音按鍵還原與注音符號還原三種用途，無需自行編譯。舊版 2.1.5 只支援中文錯字校正。
+v2.2.0 起的下載版包含中文錯字校正、注音按鍵還原與注音符號還原三種用途，無需自行編譯。v2.3.0 另包含浮動 spinner、補標點與排版。舊版 2.1.5 只支援中文錯字校正。
 
 下載版包含 Apple Silicon 與 Intel 兩種架構。最低系統版本設定為 macOS 13；新版功能已在 Apple Silicon、macOS 27.0.1 上建置與試用，Intel 與較舊系統仍需實測。
 
@@ -23,7 +23,7 @@ App 使用本機簽章，尚未取得 Apple 開發者認證與公證。若 macOS
 Release 同時附上 `.zip.sha256` 校驗檔，可選擇驗證下載內容是否完整。在 ZIP 與校驗檔所在資料夾執行：
 
 ```bash
-shasum -a 256 -c zhuyin-assist-2.2.0-macOS-universal.zip.sha256
+shasum -a 256 -c zhuyin-assist-2.3.0-macOS-universal.zip.sha256
 ```
 
 ### 更新下載版
