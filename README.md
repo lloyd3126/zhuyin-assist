@@ -16,6 +16,14 @@
 
 ## 安裝
 
+### 直接下載 App
+
+不需要安裝開發工具。到 [最新 Release](https://github.com/lloyd3126/zhuyin-assist/releases/latest) 下載 `zhuyin-assist-版本-macOS-universal.zip`，解壓縮後將 `GeminiParagraphCorrection.app` 拖到「應用程式」並開啟。
+
+下載版包含 Apple Silicon 與 Intel 兩種架構，最低系統版本設定為 macOS 13；目前實際測試環境為 Apple Silicon、macOS 26.5。App 使用本機簽章，尚未取得 Apple 開發者認證與公證。首次開啟如果遭到阻擋，請依 [安裝說明](docs/INSTALL.md#首次開啟下載版) 在系統設定允許這個 App。
+
+### 從原始碼安裝
+
 需要 macOS、Xcode Command Line Tools（Swift 5.9 以上）及 Python 3。專案最低系統版本設定為 macOS 13；目前已在 Apple Silicon、macOS 26.5 上驗證，其他環境仍需實測。
 
 第一次安裝開發工具：
@@ -65,6 +73,9 @@ App 將資料夾權限設為 `700`、設定檔設為 `600`，並移除額外的�
 
 # 建置並執行離線測試
 ./scripts/test.sh
+
+# 建置 Apple Silicon + Intel App，產生 ZIP 與 SHA-256 校驗檔
+./scripts/package-release.sh
 ```
 
 建置結果位於 `dist/GeminiParagraphCorrection.app`，不會提交到 Git。建置使用本機 ad-hoc 簽章，適合自行編譯安裝；更新後 macOS 可能需要重新允許輔助使用。
@@ -81,6 +92,7 @@ Resources/Info.plist             App 名稱、版本與識別設定
 scripts/build.sh                建置與封裝 App
 scripts/install.sh              安裝或更新 App
 scripts/test.sh                 執行離線測試
+scripts/package-release.sh      封裝供下載的雙架構 App
 docs/INSTALL.md                 安裝、更新、移除與權限處理
 docs/USAGE.md                   操作方式與測試範例
 ```

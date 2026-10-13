@@ -1,5 +1,33 @@
 # 安裝說明
 
+## 下載版：不用編譯
+
+1. 到 [最新 Release](https://github.com/lloyd3126/zhuyin-assist/releases/latest)，下載 `zhuyin-assist-版本-macOS-universal.zip`。GitHub 自動提供的「Source code」是原始碼，請下載上述 App ZIP。
+2. 解壓縮，將 `GeminiParagraphCorrection.app` 拖到「應用程式」資料夾。
+3. 開啟 App，完成下方的 Gemini 金鑰與輔助使用設定。
+
+下載版包含 Apple Silicon 與 Intel 兩種架構。最低系統版本設定為 macOS 13；目前實際測試環境為 Apple Silicon、macOS 26.5，Intel 與較舊系統仍需實測。
+
+### 首次開啟下載版
+
+App 使用本機簽章，尚未取得 Apple 開發者認證與公證。若 macOS 提示無法驗證開發者或無法檢查是否包含惡意軟體：
+
+1. 先嘗試開啟 App，關閉阻擋提示。
+2. 前往「系統設定 → 隱私權與安全性」，找到這個 App 的提示，按「仍要打開」。
+3. 依 macOS 提示確認開啟。
+
+只允許從本 repo 下載、且你信任的 App。無需關閉整台 Mac 的安全保護。詳見 [Apple 的首次開啟說明](https://support.apple.com/102445)。受公司管理的 Mac 可能不允許這項操作。
+
+Release 同時附上 `.zip.sha256` 校驗檔，可選擇驗證下載內容是否完整。在 ZIP 與校驗檔所在資料夾執行：
+
+```bash
+shasum -a 256 -c zhuyin-assist-2.1.5-macOS-universal.zip.sha256
+```
+
+### 更新下載版
+
+先從「校」選單點「結束」，下載新版並以解壓縮後的 App 替換原 App。金鑰會保留。更新後若快捷鍵失效，依下方「更新」段落重新允許輔助使用。
+
 ## 準備
 
 需要 macOS、Swift 5.9 以上與 Python 3。可安裝 Xcode Command Line Tools：

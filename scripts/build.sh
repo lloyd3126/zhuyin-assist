@@ -4,6 +4,15 @@ set -euo pipefail
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$project_root"
 
+universal=false
+case "${1:-}" in
+    --universal) universal=true; shift ;;
+    --help)
+        printf '用法：%s [--universal]\n' "$0"
+        exit 0 ;;
+esac
+[[ $# -eq 0 ]] || { printf '未知選項：%s\n' "$1" >&2; exit 1; }
+
 if [[ "$(uname -s)" != "Darwin" ]]; then
     printf '請在 macOS 上建置這個 App。\n' >&2
     exit 1
@@ -15,8 +24,21 @@ for generated in .build dist; do
     fi
 done
 
-xcrun swift build --configuration release
-binary_dir="$(xcrun swift build --configuration release --show-bin-path)"
+if [[ "$universal" == true ]]; then
+    for architecture in arm64 x86_64; do
+        if [[ -L "$project_root/.build/release-$architecture" ]]; then
+            printf '架構建置資料夾是連結，請先確認目的地。\n' >&2
+            exit 1
+        fi
+    done
+    xcrun swift build --configuration release --scratch-path .build/release-arm64 --triple arm64-apple-macosx13.0
+    arm_binary_dir="$(xcrun swift build --configuration release --scratch-path .build/release-arm64 --triple arm64-apple-macosx13.0 --show-bin-path)"
+    xcrun swift build --configuration release --scratch-path .build/release-x86_64 --triple x86_64-apple-macosx13.0
+    intel_binary_dir="$(xcrun swift build --configuration release --scratch-path .build/release-x86_64 --triple x86_64-apple-macosx13.0 --show-bin-path)"
+else
+    xcrun swift build --configuration release
+    binary_dir="$(xcrun swift build --configuration release --show-bin-path)"
+fi
 app_path="$project_root/dist/GeminiParagraphCorrection.app"
 mkdir -p "$project_root/dist"
 
@@ -35,7 +57,12 @@ if [[ -e "$app_path" ]]; then
 fi
 rm -rf "$app_path"
 mkdir -p "$app_path/Contents/MacOS" "$app_path/Contents/Resources"
-cp "$binary_dir/GeminiParagraphCorrection" "$app_path/Contents/MacOS/GeminiParagraphCorrection"
+if [[ "$universal" == true ]]; then
+    xcrun lipo -create "$arm_binary_dir/GeminiParagraphCorrection" "$intel_binary_dir/GeminiParagraphCorrection" -output "$app_path/Contents/MacOS/GeminiParagraphCorrection"
+    xcrun lipo "$app_path/Contents/MacOS/GeminiParagraphCorrection" -verify_arch arm64 x86_64
+else
+    cp "$binary_dir/GeminiParagraphCorrection" "$app_path/Contents/MacOS/GeminiParagraphCorrection"
+fi
 cp "$project_root/Resources/Info.plist" "$app_path/Contents/Info.plist"
 cp -R "$project_root/docs" "$app_path/Contents/Resources/docs"
 cp "$project_root/README.md" "$app_path/Contents/Resources/README.md"
