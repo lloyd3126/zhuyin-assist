@@ -6,7 +6,7 @@
 2. 解壓縮，將 `GeminiParagraphCorrection.app` 拖到「應用程式」資料夾。
 3. 開啟 App，完成下方的 Gemini 金鑰、輔助使用與輸入監控設定。
 
-v2.2.0 起的下載版包含中文錯字校正、注音按鍵還原與注音符號還原三種用途，無需自行編譯。v2.3.0 另包含浮動 spinner、補標點與排版。v2.3.1 新增圓框眼鏡與貝雷帽頭像 App 圖示。v2.4.0 新增四項選單狀態、獨立權限設定入口、輸入監控權限申請與常駐的「重啟快捷鍵」。舊版 2.1.5 只支援中文錯字校正。
+v2.5.1 下載版包含校正歷史、檢查與測試，以及能容忍少量誤按的注音還原。也保留中文錯字校正、注音符號還原、浮動 spinner、補標點與排版，無需自行編譯。舊版 2.1.5 只支援中文錯字校正。
 
 下載版包含 Apple Silicon 與 Intel 兩種架構。最低系統版本設定為 macOS 13。新版功能已在 Apple Silicon、macOS 27.0.1 上建置與試用，Intel 與較舊系統仍需實測。
 
@@ -23,7 +23,7 @@ App 使用本機簽章，尚未取得 Apple 開發者認證與公證。若 macOS
 Release 同時附上 `.zip.sha256` 校驗檔，可選擇驗證下載內容是否完整。在 ZIP 與校驗檔所在資料夾執行：
 
 ```bash
-shasum -a 256 -c zhuyin-assist-2.4.0-macOS-universal.zip.sha256
+shasum -a 256 -c zhuyin-assist-2.5.1-macOS-universal.zip.sha256
 ```
 
 ### 更新下載版
@@ -58,7 +58,7 @@ cd zhuyin-assist
 預設安裝在：
 
 ```text
-~/Applications/GeminiParagraphCorrection.app
+/Applications/GeminiParagraphCorrection.app
 ```
 
 系統中顯示的名稱是「Gemini 段落校正」。啟動後，選單列會出現「校」。
@@ -99,10 +99,10 @@ ZHUYIN_ASSIST_BUILD_SYSTEM=native ./scripts/install.sh
 
 ## 允許校正與快捷鍵
 
-1. v2.4.0 起點「校」→「設定輔助使用權限…」。v2.3.1 下載版點「允許校正與快捷鍵…」。
+1. 點「校」→「權限設定」→「設定輔助使用權限…」。v2.4.0 的入口在選單第一層，v2.3.1 下載版則是「允許校正與快捷鍵…」。
 2. 在「系統設定 → 隱私權與安全性 → 輔助使用」開啟已安裝的 App。macOS 27.0.1 的頁面名稱為「裝置控制和資料取用」，清單可能顯示 `GeminiParagraphCorrection.app`。
 3. 如果清單裡沒有它，按「＋」，選取已安裝的 `GeminiParagraphCorrection.app`。
-4. 在「隱私權與安全性 → 輸入監控」也開啟這個 App。v2.4.0 起可點「設定輸入監控權限…」，App 會在尚未授權時先向 macOS 申請，再開啟此頁面。如果未自動列出 App，按「＋」加入同一個已安裝的 App。
+4. 在「隱私權與安全性 → 輸入監控」也開啟這個 App。可點「權限設定 → 設定輸入監控權限…」，App 會在尚未授權時先向 macOS 申請，再開啟此頁面。如果未自動列出 App，按「＋」加入同一個已安裝的 App。
 5. 依系統提示結束並重新開啟 App。回到「校」選單，必要時點「重啟快捷鍵」。v2.3.1 下載版的對應選項為「重新啟用快捷鍵」。
 
 「輔助使用／裝置控制和資料取用」用於讀取與替換輸入欄位文字。「輸入監控」用於監聽右側 Option 快捷鍵。只有游標在可編輯欄位、且有選取文字或剛打完字時，才會進行校正。
@@ -121,7 +121,7 @@ git pull --ff-only
 自行建置的簽章會隨程式版本改變，macOS 可能不沿用舊版授權。本次更新曾遇到設定開關顯示開啟，但 App 仍回報未授權。只關閉再開啟開關未能恢復。如果更新後快捷鍵失效：
 
 1. 先從「校」選單點「結束」。
-2. 在「輔助使用／裝置控制和資料取用」選取舊 App 項目，按「－」移除，再按「＋」加入實際安裝位置的新版 App 並開啟權限。預設位置為 `~/Applications/GeminiParagraphCorrection.app`，避免誤選 repo 的 `dist` 建置副本或備份。
+2. 在「輔助使用／裝置控制和資料取用」選取舊 App 項目，按「－」移除，再按「＋」加入實際安裝位置的新版 App 並開啟權限。預設位置為 `/Applications/GeminiParagraphCorrection.app`，避免誤選 repo 的 `dist` 建置副本或備份。
 3. 在「輸入監控」對同一個 App 重新加入並開啟權限。
 4. 重新開啟 App。若系統要求「結束並重新打開」，依提示操作。v2.4.0 起必要時點「重啟快捷鍵」，v2.3.1 下載版點「重新啟用快捷鍵」，再到 TextEdit 選取文字測試。
 
@@ -129,7 +129,7 @@ git pull --ff-only
 
 ```bash
 tccutil reset ListenEvent local.chenchungnien.gemini-paragraph-correction
-open "$HOME/Applications/GeminiParagraphCorrection.app"
+open "/Applications/GeminiParagraphCorrection.app"
 ```
 
 清除後仍需重新允許輸入監控。

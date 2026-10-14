@@ -9,4 +9,6 @@ executable="$project_root/dist/GeminiParagraphCorrection.app/Contents/MacOS/Gemi
 "$executable" --settings-test
 "$executable" --paste-test
 "$executable" --indicator-test
+"$executable" --troubleshooting-test
+"$executable" --windows-test
 printf '所有測試通過。測試未使用真正的金鑰、剪貼簿或 Gemini API。\n'

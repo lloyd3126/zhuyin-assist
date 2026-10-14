@@ -2,7 +2,7 @@
 set -euo pipefail
 
 project_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-destination="$HOME/Applications"
+destination="/Applications"
 launch_app=true
 
 while [[ $# -gt 0 ]]; do
